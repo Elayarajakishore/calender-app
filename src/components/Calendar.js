@@ -71,14 +71,16 @@ const Calendar = ({ currentDate, events, onDayClick }) => {
             )}
 
             {dayEvents.map((event, idx) => (
-              <div
-                key={idx}
-                className="bg-blue-200 dark:bg-blue-500 text-xs px-2 py-1 rounded mb-1 truncate text-gray-800 dark:text-white"
-                title={`${event.title} at ${event.time}`}
-              >
-                {event.title}
-              </div>
-            ))}
+          <div
+            key={idx}
+            className="text-black text-xs px-2 py-1 rounded mb-1 truncate"
+            style={{ backgroundColor: event.color || "#3b82f" }}
+            title={`${event.title} at ${event.time}`}
+          >
+            {event.title}
+          </div>
+        ))}
+
           </div>
         );
       })}

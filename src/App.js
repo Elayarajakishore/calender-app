@@ -3,6 +3,7 @@ import Calendar from "./components/Calendar";
 import Header from "./components/Header";
 import AddEventForm from "./components/AddEventForm";
 import ViewEventsModal from "./components/ViewEventsModal";
+import YearViewCalendar from "./components/YearViewCalendar"; // ✅ New import
 import "./index.css";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [eventToEdit, setEventToEdit] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [showYearView, setShowYearView] = useState(false); // ✅ Added
 
   // 🌙 Dark Mode toggle
   useEffect(() => {
@@ -83,13 +85,37 @@ function App() {
           setShowForm={setShowForm}
           isDarkMode={isDarkMode}
           setIsDarkMode={setIsDarkMode}
+          setShowYearView={setShowYearView} // ✅ New prop
         />
 
-        <Calendar
-          currentDate={currentDate}
-          events={events}
-          onDayClick={handleDayClick}
-        />
+        {/* 🗓️ Toggle between Year and Month views */}
+        {showYearView ? (
+          <>
+            <YearViewCalendar
+              year={currentDate.getFullYear()}
+              events={events}
+              onMonthClick={(monthIndex) => {
+                const newDate = new Date(currentDate.getFullYear(), monthIndex, 1);
+                setCurrentDate(newDate);
+                setShowYearView(false);
+              }}
+            />
+            <div className="flex justify-center mt-4">
+              <button
+                onClick={() => setShowYearView(false)}
+                className="px-4 py-2 bg-violet-500 text-white rounded hover:bg-violet-600 transition"
+              >
+                Back to Month View
+              </button>
+            </div>
+          </>
+        ) : (
+          <Calendar
+            currentDate={currentDate}
+            events={events}
+            onDayClick={handleDayClick}
+          />
+        )}
       </div>
 
       {showForm && (

@@ -7,6 +7,7 @@ const AddEventForm = ({ onAdd, onClose, events, eventToEdit }) => {
   const [minute, setMinute] = useState("00");
   const [ampm, setAmPm] = useState("AM");
   const [duration, setDuration] = useState("");
+  const [color, setColor] = useState("#3b82f6"); // Default color
 
   useEffect(() => {
     if (eventToEdit) {
@@ -17,6 +18,7 @@ const AddEventForm = ({ onAdd, onClose, events, eventToEdit }) => {
       setMinute(m.slice(0, 2));
       setAmPm(m.slice(3)); // AM or PM
       setDuration(eventToEdit.duration || "");
+      setColor(eventToEdit.color || "#3b82f6");
     }
   }, [eventToEdit]);
 
@@ -49,6 +51,7 @@ const AddEventForm = ({ onAdd, onClose, events, eventToEdit }) => {
         date,
         time: formattedTime,
         duration,
+        color,
       };
       onAdd(newEvent);
     }
@@ -128,6 +131,23 @@ const AddEventForm = ({ onAdd, onClose, events, eventToEdit }) => {
             onChange={(e) => setDuration(e.target.value)}
             className="w-full border p-2 rounded bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
           />
+
+          {/* Color Picker */}
+          <div className="flex items-center gap-2">
+            <label
+              htmlFor="colorPicker"
+              className="text-gray-800 dark:text-white"
+            >
+              Event Color:
+            </label>
+            <input
+              type="color"
+              id="colorPicker"
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+              className="w-10 h-10 p-0 border-0 cursor-pointer bg-transparent"
+            />
+          </div>
 
           {duplicateEventExists && (
             <p className="text-red-500 text-sm mt-1">

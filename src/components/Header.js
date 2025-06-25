@@ -2,8 +2,19 @@ import React from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 import { FaMoon, FaSun } from "react-icons/fa";
+import { MdCalendarViewMonth } from "react-icons/md";
 
-const Header = ({ currentDate, setCurrentDate, setShowForm, isDarkMode, setIsDarkMode }) => {
+
+
+
+const Header = ({
+  currentDate,
+  setCurrentDate,
+  setShowForm,
+  isDarkMode,
+  setIsDarkMode,
+  setShowYearView, // ✅ NEW PROP
+}) => {
   const handlePrev = () => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1));
   };
@@ -64,7 +75,7 @@ const Header = ({ currentDate, setCurrentDate, setShowForm, isDarkMode, setIsDar
           </select>
         </div>
 
-        {/* Navigation + Add Event + Dark Mode */}
+        {/* Navigation + Buttons */}
         <div className="flex items-center gap-3 justify-start sm:justify-end">
           <button
             onClick={handlePrev}
@@ -86,6 +97,16 @@ const Header = ({ currentDate, setCurrentDate, setShowForm, isDarkMode, setIsDar
           >
             + Add Event
           </button>
+
+                    {/* ✅ New "Year Calendar" button */}
+          <button
+            onClick={() => setShowYearView(true)}
+            className="p-2 bg-pink-400 text-white rounded-full hover:bg-green-600 transition shadow"
+            title="Year Calendar"
+          >
+            <MdCalendarViewMonth className="w-5 h-5" />
+          </button>
+
 
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}
