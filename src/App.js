@@ -8,13 +8,16 @@ import "./index.css";
 function App() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [showForm, setShowForm] = useState(false);
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState(() => {
+    const saved = localStorage.getItem("calendarEvents");
+    return saved ? JSON.parse(saved) : [];
+  });
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [eventToEdit, setEventToEdit] = useState(null);
-  const [isDarkMode, setIsDarkMode] = useState(false); 
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
- 
+  // 🌙 Dark Mode toggle
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
@@ -22,6 +25,11 @@ function App() {
       document.documentElement.classList.remove("dark");
     }
   }, [isDarkMode]);
+
+  // 💾 Save events to localStorage when they change
+  useEffect(() => {
+    localStorage.setItem("calendarEvents", JSON.stringify(events));
+  }, [events]);
 
   const handleAddEvent = (newEvent) => {
     if (eventToEdit) {
